@@ -1,0 +1,257 @@
+extends ../profilelayout
+
+
+block content
+  script(src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js")
+  link(rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css")
+
+  .w-100.mt-5.mb-4
+    .row.justify-content-center
+      .col-md-7.col-lg-12
+        h6.mb-5.mt-5
+          | PLEASE COMPLETE ALL SECTIONS WITH AN ASTERISK *
+
+        form#hoteldetails.row.g-3.needs-validation(novalidate='' method='post' action= (hotelData && hotelData.website) ? `/hotels/editgeneralinformation/${hotelData._id}` : '/hotels/generalinformation')
+
+          input(type='hidden' name='representative' value=user._id )
+          input(type='hidden' name='_csrf' value=csrfToken)
+
+          .row.mb-4
+            .col-sm-6.has-validation
+              label.form-label(for='hotel_name') Hotel Name*
+              input#hotel_name.form-control(
+                type='text'
+                name='hotel_name'
+                value=(hotelData && hotelData.hotel_name) || ''
+                required
+              )
+              .invalid-feedback Please enter a hotel name
+
+            .col-sm-6.has-validation
+              label.form-label(for='website') Hotel Website*
+              input#website.form-control(
+                type='text'
+                name='website'
+                value=(hotelData && hotelData.website) || ''
+                required
+              )
+              .invalid-feedback Provide your hotel's website
+
+
+          .row.mb-4
+            .col-sm-6
+              label.form-label(for='youtube') Website Video Link
+              input#youtube.form-control.border(
+                type='text'
+                name='youtube'
+                value=(hotelData && hotelData.youtube) || ``
+              )
+
+
+            .col-sm-6.has-validation
+              label.form-label(for='country') Select your country
+              select#country.form-select.border(
+                aria-label='Country Selection'
+                name='country'
+                required
+              )
+                option(value='') Select country
+
+                if hotelData && hotelData.country
+                  option(selected value= hotelData.country._id)= hotelData.country.country
+
+                each country in countries
+                  option(value=country._id)= country.country
+
+              .invalid-feedback Please select a country
+
+
+          .row.mb-4
+            .col-sm-6.has-validation
+              label.form-label(for='description') About Hotel
+              textarea#description.form-control.border(
+                name='description'
+                style='height:200px'
+                required
+              )= hotelData && hotelData.description || ''
+              .invalid-feedback Please enter some information about your hotel
+            .col-sm-6
+              label.form-label(for='location') Location*
+              textarea#location.form-control.border(
+                name='location'
+                style='height:200px'
+                required
+              )= hotelData && hotelData.location || ''
+              .invalid-feedback Please enter your hotel's location  
+
+
+          //- .row.mb-4
+          //-   .col-sm-12
+          //-     div#hotelimageupload(class='dropzone')
+          //-       input(
+          //-         type='hidden'
+          //-         name='images'
+          //-         id='images'
+          //-         )
+          //-       .dz-message
+          //-         span.default-message Drag an image here or click to select from your files. You currently have #{10 - maxImages}, and can add #{maxImages} more.
+          //-         span.error-message You didn't upload any image, please upload one.
+
+          //- .row.mb-4
+          //-   .col-sm-12
+          //-     label.form-label(for='location') Location*
+          //-     textarea#location.form-control.border(
+          //-       name='location'
+          //-       style='height:200px'
+          //-       required
+          //-     )= hotelData && hotelData.location || ''
+          //-     .invalid-feedback Please enter your hotel's location
+
+
+          .row.mb-4
+            .col-sm-6
+              label.form-label(for='rooms_suites') Rooms &amp; Suites*
+              textarea#rooms_suites.form-control.border(
+                name='rooms_suites'
+                style='height:200px'
+                required
+              )= hotelData && hotelData.rooms_suites || ''
+              .invalid-feedback Enter information on your hotel's rooms &amp; suites
+            .col-sm-6
+              label.form-label(for='restaurants_bars') Restaurant &amp; Bar
+              textarea#restaurants_bars.form-control.border(
+                name='restaurants_bars'
+                style='height:200px'
+              )= hotelData && hotelData.restaurants_bars || ''
+
+          //- .row.mb-4
+          //-   .col-sm-12
+          //-     label.form-label(for='restaurants_bars') Restaurant &amp; Bar
+          //-     textarea#restaurants_bars.form-control.border(
+          //-       name='restaurants_bars'
+          //-       style='height:200px'
+          //-     )= hotelData && hotelData.restaurants_bars || ''
+
+          .row.mb-4
+            .col-sm-6
+              label.form-label(for='spa_wellness') Spa &amp; Wellness
+              textarea#spa_wellness.form-control.border(
+                name='spa_wellness'
+                style='height:200px'
+              )= hotelData && hotelData.spa_wellness || ''
+            .col-sm-6
+              label.form-label(for='other_facilities') Other Facilities
+              textarea#other_facilities.form-control.border(
+                name='other_facilities'
+                style='height:200px'
+              )= hotelData && hotelData.other_facilities || ''  
+
+          //- .row.mb-4
+          //-   .col-sm-12
+          //-     label.form-label(for='other_facilities') Other Facilities
+          //-     textarea#other_facilities.form-control.border(
+          //-       name='other_facilities'
+          //-       style='height:200px'
+          //-     )= hotelData && hotelData.other_facilities || ''
+
+          .row.mb-4
+            .col-sm-12
+              div#hotelimageupload(class='dropzone')
+                input(
+                  type='hidden'
+                  name='images'
+                  id='images'
+                  )
+                .dz-message
+                  span.default-message Drag an image here or click to select from your files. You currently have #{10 - maxImages}, and can add #{maxImages} more.
+                  span.error-message You didn't upload any image, please upload one.
+
+          .row.mb-4
+            .col-sm-12
+              label.form-label(for='map_iframe') To add Google Location Map &nbsp;
+                a.link-underline-warning.text-danger(href='#' id='iframe_guide') - Press here for Guidance on how to add a Google Map Link
+              textarea#map_iframe.form-control.border(
+                name='map_iframe'
+                style='height:200px'
+              )= hotelData && hotelData.map_iframe  || ''
+
+          if hotelData
+            .row.mb-4.mt-5
+              .container.mb-3
+                span.position-relative(type='button')
+                  | Current Images
+                  span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger
+                    | #{hotelData.images.length}
+                    span.visually-hidden current images
+
+              each image in hotelData.images
+                .col-3
+                  .card
+                    img.card-img-top(src=`/images/listimage.jpeg` class='img-thumbnail' alt='...')
+                    //- img.card-img-top(src=`/${image}` class='img-thumbnail' alt='...')
+                    .card-body
+                    button.btn-close.mb-2(type='button' aria-label='Close' onclick=`deleteImage('${hotelData._id}', '${image}', 'Hotel')`)
+
+
+
+          .row.mb-4
+            .col-sm-6
+              #uploadprogress(style='display: none;') Uploading images, please wait...
+
+          .row.mb-4
+            .col-sm-6#progress-bar(style='display: none;')
+              .progress(role="progressbar" aria-label="Upload progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100")
+                .progress-bar(style="width: 0%")
+
+
+          .row.mb-4
+            .col-sm-12.text-end
+              button.btn.btn-danger(type='submit') CONTINUE
+
+
+
+    div.modal.fade(id='instructionModal' tabindex='-1' role='dialog' aria-labelledby='instructionModalLabel' aria-hidden='true')
+      .modal-dialog.modal-lg(role='document')
+        .modal-content
+          .modal-header.border-0
+            h5.modal-title#instructionModalLabel Adding a Google Maps iframe to your Hotel Profile
+            button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+
+          .modal-body
+            p To add a Google Maps iframe, follow these steps:
+            ol
+              li Go to &nbsp;
+                a.text-danger(href='https://maps.google.com' target='_blank') Google Maps
+                | &nbsp; and &nbsp;
+                code search
+                | for the location you want to add to your hotel profile in the available search field.
+              li Click on the "Share" button
+                svg.bi.bi-share-fill(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewbox='0 0 16 16')
+                  path(d='M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5')
+              li On the window that pops up, select the "Embed a map" tab.
+              li Click on &nbsp;
+                code COPY HTML
+                |.
+              li Paste the map iframe link here.
+
+          .modal-footer
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
+
+
+    .modal.fade(tabindex='-1' aria-hidden='true' role='dialog' id='imageErrorModal')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header.border-0
+            h5.modal-title#imageModalErrorTitle Image upload failed
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          #imageErrorModalBody.modal-body.border-0
+            p Your image is too large. Please use an image less than 2 MB.
+          .modal-footer.border-0
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal' id='imageErrorClose') Close
+            button.btn.btn-danger(type='button' id='confirmDelete' style='display:none') Delete Image
+
+
+
+  script.
+    window.maxImages = !{ JSON.stringify(maxImages || {}) };
+  script(src="/scripts/generalinformation.js")

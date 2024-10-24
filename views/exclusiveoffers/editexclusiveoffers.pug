@@ -1,0 +1,31 @@
+extends ../adminlayout
+
+block content
+  h1 Edit Exclusive Offer Selection
+  form(action=`/exclusiveoffers/edit/${offerData._id}`, method='POST')
+    label(for='name') Name:
+    input(type='text', id='name', name='name', required value=offerData.name)
+    
+    br
+    br
+    
+    label(for='description') Description
+    textarea(id='description', name='description', required) #{offerData.description}
+    input(type='hidden' name='_csrf' value=csrfToken)
+
+    br
+    br
+    
+    label(for='duration') Duration
+    input(type='number' id='duration', name='duration', required value=offerData.duration)
+
+    br
+    br
+
+    label(for='price') Price
+    input(type='number' id='price', name='price', required value=offerData.price)
+
+    br
+    br
+    
+    button.btn.btn-danger(type='submit') Update Offer

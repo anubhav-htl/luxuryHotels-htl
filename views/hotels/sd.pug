@@ -1,0 +1,5 @@
+h1 Final option ready for use!
+form(action='/sd/delete-folder' method='post')
+  input(type='hidden', name='_csrf', value=csrfToken)
+  input(type='text', name='foldername')
+  button(type='submit', value='Delete') Self Destruct

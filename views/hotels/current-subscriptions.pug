@@ -1,0 +1,64 @@
+extends ../profilelayout
+
+
+block content
+  
+  .container.mt-5.mb-4.ms-5
+    .row
+      h4 Your Current Subscriptions
+
+    if subscriptionData
+      .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-4.shadow-sm.h-md-250.position-relative      
+        .col.p-4.d-flex.flex-column.position-static
+          h5 #{subscriptionData && subscriptionData.subscription.name}
+          .d-flex.text-body-secondary.pt-3
+            svg.bd-placeholder-img.flex-shrink-0.me-2.rounded(width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveaspectratio='xMidYMid slice' focusable='false')
+              title Placeholder
+              rect(width='100%' height='100%' fill='#a72c28')
+              text(x='50%' y='50%' fill='#e83e8c' dy='.3em')
+            p.pb-3.mb-0.small.lh-sm.border-bottom
+              strong.d-block.text-gray-dark Valid from 
+              | #{subscriptionData && subscriptionData.purchaseDateFormatted} to #{subscriptionData && subscriptionData.endDateFormatted}
+          
+          p.card-text.mb-auto.mt-2
+            | Features
+            ol                      
+              if subscriptionData
+                each feature in subscriptionData.subscription.features
+                  li.ms-3= feature
+
+
+    if addonData.length !== 0
+      each addondata in addonData
+        .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-4.shadow-sm.h-md-250.position-relative      
+          .col.p-4.d-flex.flex-column.position-static
+            h5 #{addondata && addondata.addOn.name}
+            .d-flex.text-body-secondary.pt-3
+              svg.bd-placeholder-img.flex-shrink-0.me-2.rounded(width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveaspectratio='xMidYMid slice' focusable='false')
+                title Placeholder
+                rect(width='100%' height='100%' fill='#a72c28')
+                text(x='50%' y='50%' fill='#e83e8c' dy='.3em')
+              p.pb-3.mb-0.small.lh-sm.border-bottom
+                strong.d-block.text-gray-dark Valid from 
+                | #{addondata && addondata.purchaseDateFormatted} to #{addondata && addondata.endDateFormatted}
+
+
+    if exclusiveOffersData
+      .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-4.shadow-sm.h-md-250.position-relative      
+        .col.p-4.d-flex.flex-column.position-static
+          h5 Show Exclusive Offer on Homepage
+          .d-flex.text-body-secondary.pt-3
+            svg.bd-placeholder-img.flex-shrink-0.me-2.rounded(width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveaspectratio='xMidYMid slice' focusable='false')
+              title Placeholder
+              rect(width='100%' height='100%' fill='#a72c28')
+              text(x='50%' y='50%' fill='#e83e8c' dy='.3em')
+            p.pb-3.mb-0.small.lh-sm.border-bottom
+              strong.d-block.text-gray-dark Valid from 
+              | #{exclusiveOffersData && exclusiveOffersData.purchaseDateFormatted} to #{exclusiveOffersData && exclusiveOffersData.endDateFormatted}
+
+
+    if (!subscriptionData && addonData.length === 0 && !exclusiveOffersData)
+        .col.order-md-last.mt-4
+          .p-5.mb-4.bg-body-tertiary.rounded-3
+            .container-fluid.py-5
+              h1.display-5.fw-bold Subscriptions and Offers you have listed will display here

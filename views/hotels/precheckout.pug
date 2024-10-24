@@ -1,0 +1,54 @@
+extends ../profilelayout
+
+block content
+  .container-fluid.mt-5.mb-4.ms-2
+    .row.justify-content-center
+      .col-12
+        if (transactionData === null)
+          h6.mb-5.mt-5.text-uppercase
+            | No items to display yet
+        else
+          h6.mb-5.mt-5.text-uppercase
+            | Review the items you have added to your cart
+            
+          #alert-container
+
+
+          .mt-5.position-static.p-3.rounded-3.shadow(data-bs-theme='light')
+            div
+              div.row.mb-2.fw-medium
+                .col-6
+                  | Item Description
+                .col-2
+                  | Duration
+                .col-2
+                  | Amount
+                .col-2
+              each value, key in transactionData.paymentElements
+                each element, id in value
+                  div.row.mb-3(id=`cart-item-${id}`, data-item-type=key, data-item-name=id)
+                    .col-6
+                      strong.d-block= id
+                      small= element.details.label
+                    .col-2
+                      small #{element.details.duration} #{element.details.durationMeasure}
+                    .col-2
+                      small € #{element.price}
+                    .col-2
+                      a(href='#' onclick=`removeFromCart("${key}", "${id}")`) Remove
+              div.row.fw-medium
+                .col-6
+                .col-2
+                  | Total
+                .col-2 €
+                  span#cartmessage= cartTotal
+                .col-2
+
+
+          .row.mb-4.mt-5
+            .col-sm-12.text-end          
+              a.btn.btn-danger(href='/hotels/transactionsummary') CHECK OUT NOW
+
+
+  script(src='/scripts/precheckout.js',)
+   

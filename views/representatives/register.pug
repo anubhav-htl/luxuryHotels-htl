@@ -1,0 +1,74 @@
+extends ../navbar
+
+block content
+
+  .container-fluid(style='padding-right: 0; overflow-x: hidden;')
+    .row.align-items-center
+      .col.mt-5.text-center
+        p WELCOME TO 
+        
+        img(src='/images/logo red.png', width='300')
+
+        br
+        br
+        p 
+          | List your luxury hotel on our platform to receive direct <br>
+          | commission-free bookings
+
+        p 
+          | Create a Hotel profile. Only takes 5 minutes
+
+        if errorMessages.length
+          .text-danger
+            p
+              each message in errorMessages
+                = message
+
+        if successMessages.length
+          .text-success
+            p
+              each message in successMessages
+                = message
+
+        if informationMessages.length
+          .text-success
+            p
+              each message in informationMessages
+                = message
+
+
+        .d.flex.justify-content-center 
+          form(action="/representatives/register" method="POST")
+            .row.mb-2.justify-content-center 
+              .col-10.col-md-5
+                input#name.form-control(type='text' name='name' placeholder='Enter your names', required)
+            .row.mb-2.justify-content-center
+              .col-10.col-md-5
+                input#email.form-control(type='email' name='email' placeholder='Enter your email', required)
+            .row.mb-2.justify-content-center 
+              .col-10.col-md-5
+                input#password.form-control(type='password' name='password' required='' placeholder='Create password')
+            .row.mb-2.justify-content-center 
+              .col-10.col-md-5
+                input#passwordConfirm.form-control(type='password' name='passwordConfirm' required='' placeholder='Confirm password')
+                input(type='hidden', name='_csrf', value=csrfToken)
+
+            .row.mb-2.justify-content-center 
+              .col-10.col-md-5.d-grid.gap-2.mx-auto
+                input.btn.btn-danger(type='submit', value='CONTINUE')
+
+        br
+        br
+
+        p.fs-6
+          | By signing up, I have read and agree to&nbsp;
+          a.text-danger(href="#") Terms&nbsp;
+          | and&nbsp;
+          a.text-danger(href="#") Privacy Policy 
+
+      .col
+        img.img-fluid(src='/images/listimage.jpeg', alt='List your hotel')
+
+
+
+  

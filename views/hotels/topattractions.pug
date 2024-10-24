@@ -1,0 +1,118 @@
+extends ../profilelayout
+
+
+block content
+  link(rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css' integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=' crossorigin='')
+
+
+
+  .container.mt-5.mb-4
+    .row.justify-content-center
+      .col-12
+        h6.mb-5.mt-5.text-uppercase
+          | enter some popular attractions close to your hotel#{hotelProfile && hotelProfile.hotel_name ? ', ' + hotelProfile.hotel_name : ''}
+
+
+        form#topAttractions(action=`/hotels/topattractions`, method='POST')
+          .container
+            h5 Top Attractions (Optional)
+            br
+            a.link-underline-warning.text-danger(href='#' id='coordinates_guide') View our guide on how to add &nbsp;
+              code coordinates to your profile
+            br
+            br
+
+            #attractionsContainer
+              if hotelProfile && hotelProfile.top_attractions && hotelProfile.top_attractions.length > 0
+                each attraction, index in hotelProfile.top_attractions
+                  .attractionEntry.mb-2.row.g-2.align-items-center
+                    .col
+                      label.form-label(for=`name${index}`) Name of attraction:
+                      input.form-control(type='text' id=`name${index}` name=`top_attractions[${index}][name]` value=attraction.name required placeholder='e.g. ACME Gift Shop')
+                    .col
+                      label.form-label(for=`distance${index}`) Distance from hotel (miles):
+                      input.form-control(type='number' id=`distance${index}` step='0.01' name=`top_attractions[${index}][distance]` value=attraction.distance required placeholder='e.g. 12')
+                    .col
+                      label.form-label(for=`coordinates${index}`) Coordinates:
+                      input.form-control(type='text' id=`coordinates${index}` name=`top_attractions[${index}][coordinates]` value=attraction.coordinates required
+                        placeholder='e.g. -3.994365, 39.730696')
+              else
+                .attractionEntry.mb-2.row.g-2.align-items-center
+                  .col
+                    label.form-label(for='name') Name of attraction:
+                    input.form-control(type='text' id='name' name='top_attractions[0][name]' required placeholder='e.g. ACME Gift Shop')
+                  .col
+                    label.form-label(for='distance') Distance from hotel (miles):
+                    input.form-control(type='number' id='distance' step='0.01' name='top_attractions[0][distance]' required placeholder='e.g. 12')
+                  .col
+                    label.form-label(for='coordinates') Coordinates:
+                    input.form-control(type='text' id='coordinates' name='top_attractions[0][coordinates]' placeholder='e.g. -3.994365, 39.730696' required)
+
+            br
+            button.btn.btn-outline-danger(type='button' id='addAttraction') + Add Attraction
+
+          input(type='hidden' name='representative' value=user._id )
+          input(type='hidden' name='hotel_id' value=hotelProfile ? hotelProfile._id : '' )
+          input(type='hidden' name='_csrf' value=csrfToken)
+
+          br
+          br
+
+          .row.justify-content-center
+            .col-md-7.col-lg-11
+                #map
+
+          br
+          br
+          .row.mb-4
+            .col-sm-12.text-end
+              a.btn.btn-secondary.me-3(href='/hotels/generalinformation') PREVIOUS
+              button.btn.btn-danger(type='submit') CONTINUE
+
+
+    div.modal.fade(id='instructionModal' tabindex='-1' role='dialog' aria-labelledby='instructionModalLabel' aria-hidden='true')
+      .modal-dialog.modal-dialog-centered.modal-lg(role='document')
+        .modal-content
+          .modal-header.border-0
+            h5.modal-title#instructionModalLabel Adding Coordinates to your Hotel Profile
+            button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+
+          .modal-body
+            p Coordinates look like this &nbsp;
+              code -1.430053818621017, 36.682859361150605
+
+            | Follow these steps to add them to your profile:
+            ol
+              li Go to &nbsp;
+                a.text-danger(href='https://maps.google.com' target='_blank') Google Maps
+              li Right Click on your hotel's location
+              li On the window that pops up, the first line that appears are usually the coordinates.
+              li Click on this line, and the coordinates will be automatically copied. You will be notified that they have been copied to the clipboard at the bottom of the page.
+              li Paste the coordinates here.
+
+          .modal-footer
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
+
+
+    .modal.fade(tabindex='-1' aria-hidden='true' role='dialog' id='errorModal')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header.border-0
+            h5.modal-title#errorModalTitle
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          #errorModalBody.modal-body.border-0
+            p
+          .modal-footer.border-0
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal' id='errorModalClose') Close
+
+
+
+  script(src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js' integrity='sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=' crossorigin='')
+
+  script.
+      window.hotel_identifying = !{ JSON.stringify(hotel_identifier || {}) };
+      window.map_iframe = !{ JSON.stringify(hotelProfile && hotelProfile.map_iframe  || {}) };
+      window.top_attractions = !{ JSON.stringify(hotelProfile && hotelProfile.top_attractions || {}) };
+      window.hotel_name = !{ JSON.stringify(hotelProfile && hotelProfile.hotel_name  || {}) };
+
+  script(src='/scripts/topattractions.js')

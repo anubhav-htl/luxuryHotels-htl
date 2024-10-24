@@ -1,0 +1,90 @@
+extends ../profilelayout
+
+
+block content
+  script(src='https://www.paypal.com/sdk/js?client-id=AT8IXG4pX3p450Vu-oenC0Rbq5VbQr4LrLUDjJhT7fBRb3wfMF-m0OQ8K_0r-zjh3knYSfk8ugssKExv&currency=EUR')
+
+  .container.mt-5.mb-4.ms-5
+    .row.g-5
+      .col-md-5.col-lg-4.order-md-last
+        h4.d-flex.justify-content-between.align-items-center.mb-3
+          a.text-danger(href='/hotels/precheckout') Your cart
+          span.badge.bg-danger.rounded-pill #{itemCount}
+
+        ul.list-group.mb-3
+          each value, key in transactionData.paymentElements
+            each element, id in value
+              li.list-group-item.d-flex.justify-content-between.lh-sm
+                div
+                  h6.my-0= id
+                  small.text-body-secondary= element.details.label
+                span.text-body-secondary €
+                  = element.price
+
+
+
+          li.list-group-item.d-flex.justify-content-between
+            span Total (EUR)
+            strong  €
+              = cartTotal
+
+      .col-md-7.col-lg-8
+        h4.mb-3 Billing address
+        form#payment-form(action='/hotels/process-stripe-payment' method='post')
+          .row.g-3
+            .col-sm-6
+              label.form-label(for='firstName') First name
+              input#firstName.form-control(type='text' placeholder='' value='' required name='cardholder_first_name')
+
+            .col-sm-6
+              label.form-label(for='lastName') Last name
+              input#lastName.form-control(type='text' placeholder='' value='' required name='cardholder_last_name')
+
+            .col-12
+              label.form-label(for='email') Email
+              input#email.form-control(type='email' placeholder='you@example.com' required name='cardholder_email')
+
+            .col-md-5
+              label.form-label(for='country') Country
+              select#country.form-select.border(aria-label='Country Selection', required, name="cardholder_country")
+                option(value=(hotelProfile && hotelProfile.country && hotelProfile.country.country) || '') #{ (hotelProfile && hotelProfile.country && hotelProfile.country.country) || '' }
+
+                if countryData
+                  each country in countryData
+                    option(value=country.country) #{country.country}
+
+            .col-md-7
+              label.form-label(for='telephone') Phone Number
+              input#telephone.form-control(type='text' required name='cardholder_telephone')
+
+
+          hr.my-4
+          h4.mb-3 Payment
+
+          .my-3
+            .form-check
+              input#stripe.form-check-input(name='paymentMethod' type='radio' required value='stripe')
+              label.form-check-label(for='stripe') Stripe
+            .form-check
+              input#paypal.form-check-input(name='paymentMethod' type='radio' required value='paypal')
+              label.form-check-label(for='paypal') PayPal
+            .form-check
+              input#coinbase.form-check-input(name='paymentMethod' type='radio' required value='coinbase')
+              label.form-check-label(for='coinbase') Coinbase
+
+            input(type='hidden', name='_csrf', value=csrfToken id='_csrfToken')
+            input#transaction(type='hidden', name='transaction', value=transactionData.id)
+
+
+          hr.my-4
+          #stripe-button-container(style='display:none')
+            input#checkout-button.w-100.btn.btn-bd-primary.btn-lg(type='submit' value='Checkout with Stripe')
+
+          #paypal-button-container(style='display:none')
+
+          //- #coinbase-button-container(style='display:none')
+          //-   input.w-100.btn.btn-bd-primary.btn-lg(type='submit' value='Pay using crypto through Coinbase')
+
+
+
+  script(src='/scripts/transactionsummary.js')

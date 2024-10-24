@@ -1,0 +1,51 @@
+extends ../navbar
+
+block content
+
+  .container-fluid(style='padding-right: 0; overflow-x: hidden;')
+    .row.align-items-center
+      .col.mt-5.text-center
+        p WELCOME TO 
+        
+        img(src='/images/logo red.png', width='300')
+
+        br
+        br
+        p 
+          | List your luxury hotel on our platform to receive direct <br>
+          | commission-free bookings
+
+        p 
+          | Please verify your account by clicking the link in the <br>
+          | email we sent you
+
+        if errorMessages.length
+          .text-danger
+            p
+              each message in errorMessages
+                = message
+
+        if successMessages.length
+          .text-success
+            p
+              each message in successMessages
+                = message
+
+        if informationMessages.length
+          .text-info
+            p
+              each message in informationMessages
+                = message
+        br
+        br
+
+        p.fs-6
+          | Didnt't receive a code? 
+          a.text-danger(href='#') Resend code
+
+      .col
+        img.img-fluid(src='/images/listimage.jpeg', alt='List your hotel')
+
+
+
+  

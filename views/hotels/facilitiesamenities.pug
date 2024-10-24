@@ -1,0 +1,262 @@
+extends ../profilelayout
+
+
+block content
+
+  .container.mt-5.mb-4.ms-5
+    .row.justify-content-center
+      .col-12
+        form#hoteldetails(method='post' action='/hotels/facilitiesamenities')   
+          h6.mb-5.mt-5
+            | PLEASE COMPLETE YOUR HOTEL INFORMATION TO CONTINUE
+          h6.mb-5
+            | ROOM AMENITIES
+          .row.g-3.mb-5
+            .col-3
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Tea and Coffee Machine' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Tea and Coffee Machine')))
+                label.form-check-label(for='teaAndCoffee') Tea &amp; Coffee Machine
+
+            .col-3
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Business Center' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Business Center')))
+                label.form-check-label(for='businessCenter') Business Center
+
+            .col-3
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Gym' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Gym')))
+                label.form-check-label(for='gym') Gym
+
+            .col-3
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Shopping' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Shopping')))
+                label.form-check-label(for='shopping') Shopping
+
+
+
+          .row.g-3.mb-5
+            .col-3
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Breakfast' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Breakfast')))
+                label.form-check-label(for='teaAndCoffee') Breakfast
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Sleepers' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Slippers')))
+                label.form-check-label(for='businessCenter') Slippers
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Hot Tub' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Hot Tub')))
+                label.form-check-label(for='gym') Hot Tub
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Cable' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Cable')))
+                label.form-check-label(for='shopping') TV &amp; Cable
+
+
+
+          .row.g-3.mb-5
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='WiFi' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('WiFi')))
+                label.form-check-label(for='teaAndCoffee') WiFi
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Towers' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Towers')))
+                label.form-check-label(for='businessCenter') Towers
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Private Swimming Pool' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Private Swimming Pool')))
+                label.form-check-label(for='gym') Private Swimming Pool
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Hair Dryer' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Hair Dryer')))
+                label.form-check-label(for='shopping') Hair Dryer
+
+
+
+          .row.g-3.mb-5
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Toiletries' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Toiletries')))
+                label.form-check-label(for='teaAndCoffee') Toiletries
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Room Service' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Room Service')))
+                label.form-check-label(for='gym') Room Service
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='room_amenities' value='Iron and Board' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.room_amenities.includes('Iron and Board')))
+                label.form-check-label(for='shopping') Iron and Board
+
+          
+          if hotelProfile && hotelProfile.room_amenities_user
+            .row.g-3.mb-5
+              each room_amenities_user in hotelProfile.room_amenities_user
+                .col-3
+                .form-check.mb-3
+                  input.form-control.border-top-0.border-start-0.border-end-0(type='text' name='room_amenities_user' value=room_amenities_user placeholder='Enter amenity')
+
+
+          .row.g-3.mb-5
+            .row.g-3#additional-amenities
+            .col.text-end
+              button.btn.btn-outline-danger.border-0(type='button' id='add-amenity' style='font-size:14px') + ADD ADDITIONAL AMENITIES
+
+
+
+
+
+
+          h6.mb-5
+            | HOTEL FACILITIES
+          .row.g-3.mb-5
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Laundry Service' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Laundry Service')))
+                label.form-check-label(for='teaAndCoffee') Laundry Service
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Business Center' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Business Center')))
+                label.form-check-label(for='businessCenter') Business Center
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Gym' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Gym')))
+                label.form-check-label(for='gym') Gym
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Shopping' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Shopping')))
+                label.form-check-label(for='shopping') Shopping
+
+
+          .row.g-3.mb-5
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Swimming Pool' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Swimming Pool')))
+                label.form-check-label(for='teaAndCoffee') Swimming Pool
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Sport Center' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Sport Center')))
+                label.form-check-label(for='businessCenter') Sport Center
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Spa' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Spa')))
+                label.form-check-label(for='gym') Spa
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Sun Bed' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Sun Bed')))
+                label.form-check-label(for='shopping') Sun Bed
+
+
+
+          .row.g-3.mb-5
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Private Beach' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Private Beach')))
+                label.form-check-label(for='teaAndCoffee') Private Beach
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Bar' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Bar')))
+                label.form-check-label(for='businessCenter') Bar
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Fitness Center' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Fitness Center')))
+                label.form-check-label(for='gym') Fitness Center
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Conference/Meeting Room' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Conference/Meeting Room')))
+                label.form-check-label(for='shopping') Conference/Meeting Room
+
+
+
+          .row.g-3.mb-5
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Private Driver' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Private Driver')))
+                label.form-check-label(for='teaAndCoffee') Private Driver
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Parking' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Parking')))
+                label.form-check-label(for='gym') Parking
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Restaurant' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Restaurant')))
+                label.form-check-label(for='shopping') Restaurant
+
+            .col-3
+            
+              .form-check
+                input.form-check-input(type='checkbox' name='hotel_facilities' value='Concierge Service' checked=(hotelProfile && hotelProfile.room_amenities && hotelProfile.hotel_facilities.includes('Concierge Service')))
+                label.form-check-label(for='shopping') Concierge Service
+
+          if hotelProfile && hotelProfile.hotel_facilities_user
+            .row.g-3.mb-5
+              each hotel_facilities_user in hotelProfile.hotel_facilities_user
+                .col-3
+                .form-check.mb-3
+                  input.form-control.border-top-0.border-start-0.border-end-0(type='text' name='hotel_facilities_user' value=hotel_facilities_user placeholder='Enter amenity')
+
+
+          .row.g-3.mb-5
+            .row.g-3#additional-facilities
+            .col.text-end
+              button.btn.btn-outline-danger.border-0(type='button' id='add-facility' style='font-size:14px') + ADD ADDITIONAL FACILITIES
+
+
+          .row.mb-4.mt-5
+            .col.text-end
+              input(type="hidden" name="hotelId" value=hotelProfile && hotelProfile._id)
+              input(type='hidden' name='_csrf' value=csrfToken)
+
+          
+          .row.mb-4
+            .col-sm-12.text-end
+              a.btn.btn-secondary.me-3(href='/hotels/topattractions') PREVIOUS
+              button.btn.btn-danger(type='submit') CONTINUE
+
+
+  script(src="/scripts/facilitiesamenities.js")
+   

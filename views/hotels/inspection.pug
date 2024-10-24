@@ -1,0 +1,110 @@
+extends ../profilelayout
+
+
+block content
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+
+  .container.mt-5.mb-4
+    .row.justify-content-center
+      .col-md-7.col-lg-11
+        if errorMessages.length
+          each message in errorMessages
+            .alert.alert-danger.alert-dismissible.fade.show(role='alert')
+              = message
+              button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
+
+
+        if successMessages.length
+          each message in successMessages
+            .alert.alert-success.alert-dismissible.fade.show(role='alert')
+              = message
+              button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
+
+        if informationMessages.length
+          each message in informationMessages
+            .alert.alert-info.alert-dismissible.fade.show(role='alert')
+              = message
+              button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
+
+        h6.mb-5.mt-5.text-uppercase
+          | book an inspection tour for luxury hotels team visit to your hotel
+
+        form#hoteldetails(action='/hotels/inspection' method='POST')
+
+          .row.g-3.mb-5.mt-4
+            .col
+              label.form-label(for='from_date') Your Name
+              input.form-control.border-start-0.border-end-0.border-top-0(type='text' name='bookerName' placeholder='Enter your name' required value=user.name)
+
+          .row.g-3.mb-5.mt-1
+            .col-4
+              label.form-label(for='from_date') Country Code
+              select#country.form-select.border.border-top-0.border-end-0.border-start-0(aria-label='Country Selection', required, name="country_code")
+                option(value=(hotelProfile && hotelProfile.country && hotelProfile.country.code) || '') #{hotelProfile && hotelProfile.country && hotelProfile.country.code || ''}
+
+                if countryData
+                  each country in countryData
+                    option(value=country.code) #{country.code}
+
+
+            .col-4
+              label.form-label(for='telephone') Phone Number
+              input.form-control.border-start-0.border-end-0.border-top-0(type='text' id='telephone' name='telephone' placeholder='Phone Number' required value=user.telephone)
+
+
+
+          h6 Select the dates the invitation is valid for
+          .row.g-3.mb-5.mt-1.date-row
+            .col-6
+              label.form-label(for='from_date') From
+              input.datepicker.form-control(type='text' id='from_date_1_mandatory' name='from_date_1' required)
+            .col-6
+              label.form-label(for='from_date') To
+              input.datepicker.form-control(type='text' id='to_date_1_mandatory' name='to_date_1' required)
+
+          .row.g-3.mb-5.mt-1.date-row
+            .col-6
+              label.form-label(for='from_date') From (Optional)
+              input.datepicker.form-control(type='text' id='from_date_2' name='from_date_2')
+            .col-6
+              label.form-label(for='from_date') To (Optional)
+              input.datepicker.form-control(type='text' id='to_date_2' name='to_date_2')
+
+
+          .row.g-3.mb-5.mt-1.date-row
+            .col-6
+              label.form-label(for='from_date') From (Optional)
+              input.datepicker.form-control(type='text' id='from_date_3' name='from_date_3')
+            .col-6
+              label.form-label(for='from_date') To (Optional)
+              input.datepicker.form-control(type='text' id='to_date_3' name='to_date_3')
+
+
+          .row.g-3.mb-5.mt-4
+            .col
+              textarea.form-control.border-start-0.border-end-0.border-top-0(name='description' id='description' required placeholder='Enter some details on the proposed inspection' style="height: 100px")
+              input(type='hidden' name='_csrf', value=csrfToken)
+              input(type='hidden' name='hotelId', value=hotelId)
+              input(type='hidden' name='hotelRepId' value=user._id )
+
+              br
+              br
+
+          input.btn.btn-danger(type='submit' value='Submit')
+
+
+    .modal.fade(tabindex='-1' aria-hidden='true' role='dialog' id='errorModal')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header.border-0
+            h5.modal-title#errorModalTitle
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          #errorModalBody.modal-body.border-0
+            p
+          .modal-footer.border-0
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal' id='errorModalClose') Close
+
+
+
+  script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+  script(src="/scripts/inspection.js")

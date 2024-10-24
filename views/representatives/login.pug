@@ -1,0 +1,63 @@
+extends ../navbar
+
+block content
+
+  .container-fluid(style='padding-right: 0; overflow-x: hidden;')
+    .row.align-items-center
+      .col.mt-5.text-center
+        p WELCOME TO
+
+        img(src='/images/logo red.png', width='300')
+
+        br
+        br
+        p
+          | Please sign in to list your hotel
+        if errorMessages.length
+            .text-danger
+              p
+                each message in errorMessages
+                  = message
+
+        if successMessages.length
+          .text-success
+            p
+              each message in successMessages
+                = message
+
+        if successMessage
+          .text-success
+            p
+                = successMessage
+
+        if informationMessages.length
+          .text-success
+            p
+              each message in informationMessages
+                = message
+
+        .d.flex.justify-content-center
+          form(action="/representatives/login" method="POST")
+            .row.mb-2.justify-content-center
+              .col-10.col-md-5
+                input#email.form-control(type='email' name='email' placeholder='Enter your email')
+            .row.mb-2.justify-content-center
+              .col-10.col-md-5
+                input#password.form-control(type='password' name='password' required='' placeholder='Password')
+                input(type='hidden' name='_csrf' value=csrfToken)
+            .row.mb-2.justify-content-center
+              .col-10.col-md-5.d-grid.gap-2.mx-auto
+                button.btn.btn-danger(type='submit') Submit
+
+        br
+
+        p.fs-6
+          a.text-danger.link-underline-light(href="#") Forgot password?
+
+        br
+        .d-grid.gap-2.col-5.mx-auto
+          a.btn.btn-outline-danger(href='/representatives/register') REGISTER
+
+
+      .col
+        img.img-fluid(src='/images/listimage.jpeg', alt='List your hotel')

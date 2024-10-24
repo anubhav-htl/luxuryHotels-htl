@@ -1,0 +1,307 @@
+doctype html
+html
+  head
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(href='https://getbootstrap.com/docs/5.3/examples/sidebars/sidebars.css' rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap' rel='stylesheet')
+    script(src="https://js.stripe.com/v3/")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js")
+
+
+    meta(charset="utf-8")
+    meta(name='csrf-token' content=csrfToken)
+
+    link(rel="icon" href="https://www.luxuryhotelsmagazines.com/favicon.ico")
+
+    style.
+      body {
+        font-family: 'Fraunces', serif;
+        font-weight: 300
+      }
+      .btn-danger {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: #b2191d;
+        --bs-btn-border-color: #b2191d;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #bb2d3b;
+        --bs-btn-hover-border-color: #b02a37;
+        --bs-btn-focus-shadow-rgb: 225, 83, 97;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #b02a37;
+        --bs-btn-active-border-color: #a52834;
+        --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+        --bs-btn-disabled-color: #fff;
+        --bs-btn-disabled-bg: #b2191d;
+        --bs-btn-disabled-border-color: #b2191d;
+      }
+      .current-page {
+        font-weight: bold;
+        color: red !important; /* Adjust to your preferred style */
+      }
+      .dropzone .dz-message .error-message {
+        color: red;
+        display: none; /* Initially hidden */
+      }
+      .dropzone.is-invalid .dz-message .default-message {
+        display: none; /* Hide default message when error is shown */
+      }
+      .dropzone.is-invalid .dz-message .error-message {
+        display: block;
+      }
+      #map { height: 400px; }
+      .btn-bd-primary {
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: #FFF;
+        --bs-btn-bg: #6528e0;
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e9;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+
+  body
+    nav.navbar.navbar-expand-lg.bg-body-white.border.border-bottom-secondary
+      .container-fluid
+        a.navbar-brand
+        .d-flex
+          #navbarNav.collapse.navbar-collapse
+            ul.navbar-nav
+              li.nav-item
+                a.nav-link(href='/representatives/hotelprofiles') List Your Hotel
+              li.nav-item.ms-5
+                a.nav-link(href=`${reactUrl}/publish-news`) Publish News
+              li.nav-item.dropdown.ms-5
+                if user
+                  a.nav-link.text-success
+                    | #{user.name}
+                else
+                  a.nav-link(href='/representatives/login') Log in
+              li.nav-item.ms-5
+                button.btn.btn-danger(type='submit') FIND A HOTEL
+
+    nav.navbar.navbar-expand-lg.bg-body-white.border.border-bottom-secondary
+      .container-fluid
+        a.navbar-brand.ms-5
+          img(src='https://www.luxuryhotelsmagazines.com/assets/images/logo/logo.svg' width='250')
+
+        .d-flex
+          #navbarNav.collapse.navbar-collapse
+            ul.navbar-nav
+              li.nav-item.me-5
+                a.nav-link(href=reactUrl) Home
+              li.nav-item.me-5
+                a.nav-link(href=`${reactUrl}/luxury-hotels`) Luxury Hotels &amp; Resorts
+              li.nav-item.dropdown.me-5
+                a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
+                  | News
+                ul.dropdown-menu.dropdown-menu-end
+                  li
+                    a.dropdown-item(href='#') Action
+                  li
+                    a.dropdown-item(href='#') Action
+                  li
+                    a.dropdown-item(href='#') Action
+
+    nav.navbar.navbar-expand-lg.bg-body-white
+      .container-fluid
+        .navbar-brand.mt-4
+
+    nav.navbar.navbar-expand-lg.bg-danger
+      .container-fluid(style='margin-bottom: -8px')
+        a.navbar-brand.ms-5.mt-3
+          span(style='color: #a59354; background-color: white; padding: 10px 15px;')
+            | #{pageTitle}
+
+    .container.me-0.ms-0
+      .row
+        .col-lg-3.ms-md-5.mt-5
+          .row
+            .col.pt-5.align-items-center.rounded-3.border.shadow-sm
+              .flex-shrink-0.p-3
+                a.d-flex.align-items-center.pb-3.mb-3.link-body-emphasis.text-decoration-none(href='/')
+                  img(src='https://www.luxuryhotelsmagazines.com/assets/images/logo/logo.svg' width='200')
+                ul.list-unstyled.ps-0
+                  li.mb-1
+                    a.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0.fw-semibold(href='/hotels/generalinformation')
+                      | General Information
+                  li.mb-1
+                    a.verifyprofile.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0.fw-semibold(href='/hotels/topattractions')
+                      | Top Attractions
+                  li.mb-1
+                    a.verifyprofile.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0.fw-semibold(href='/hotels/facilitiesamenities')
+                      | Facilities &amp; Amenities
+                  li.mb-1
+                    a.verifyprofile.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0.fw-semibold(href='/hotels/highlights')
+                      | Hotel Highlights
+                  li.mb-1
+                    a.verifyprofile.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0.fw-semibold(href='/hotels/transportation')
+                      | Nearby Transportation
+                  li.mb-1
+                    a.verifyprofile.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0.fw-semibold(href='/hotels/contactinformation')
+                      | Contact Information
+                  li.mb-1
+                    a.verifyprofile.highlightablelink.btn.btn-toggle.d-inline-flex.align-items-center.rounded.border-0.collapsed(data-bs-toggle='collapse' data-bs-target='#home-collapse' aria-expanded='true')
+                      | Additional Features
+                    #home-collapse.collapse.show
+                      ul.btn-toggle-nav.list-unstyled.fw-normal.pb-1.small
+                        li
+                          a.verifyprofile.highlightablelink.link-body-emphasis.d-inline-flex.text-decoration-none.rounded(href='/hotels/additionalexposure') Additional Exposure
+                        li
+                          a.verifyprofile.highlightablelink.link-body-emphasis.d-inline-flex.text-decoration-none.rounded(href='/hotels/exclusiveoffers') Exclusive Offers
+                        li
+                          a.verifyprofile.highlightablelink.link-body-emphasis.d-inline-flex.text-decoration-none.rounded(href='/hotels/holiday') Add "Win a holiday"
+                        li
+                          a.verifyprofile.highlightablelink.link-body-emphasis.d-inline-flex.text-decoration-none.rounded(href='/hotels/nomination') Nominate your hotel for "Best Luxury Hotel of the Year"
+                        li
+                          a.verifyprofile.highlightablelink.link-body-emphasis.d-inline-flex.text-decoration-none.rounded(href='/hotels/inspection') Book an inspection tour for Luxury Hotels Team Visit
+
+                  li.mb-1
+                    a.verifyprofile.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0(href='/hotels/subscriptions')
+                      | Select package
+                  li.mb-3.mt-2
+                    a.verifyprofile.position-relative.highlightablelink.d-inline-flex.align-items-center.rounded.border-0.ms-2.ps-1.text-dark.link-underline-light(type='button' href=itemCount ? '/hotels/transactionsummary' : '#')
+                      | Payment
+                      span#cart-item-count.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger
+                        if itemCount
+                          | #{itemCount}
+
+
+
+                  li.mb-1.border-top
+                    a.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0
+                      | Preview &amp; Edit Profile
+                  li.mb-1
+                    a.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0
+                      | Reviews
+                  li.mb-1
+                    a.highlightablelink.btn.d-inline-flex.align-items-center.rounded.border-0(href='/hotels/current-subscriptions')
+                      | Subscription &amp; Renewal
+
+                  br
+                  li.mb-1
+                    a.btn.d-inline-flex.align-items-center.rounded.border-0
+                      | Website Visits
+                  li.mb-1
+                    a.btn.d-inline-flex.align-items-center.rounded.border-0
+                      | Profile Visits
+
+                  br
+                  li.mb-1
+                    a.btn.d-inline-flex.align-items-center.rounded.border-0(href='/representatives/logout')
+                      | Log out
+
+
+
+
+
+        .col-md-12.col-sm-12.col-lg-8
+
+
+
+          block content
+
+        #staticBackdrop.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+          .modal-dialog.modal-dialog-centered
+            .modal-content
+              .modal-body
+                | Please enter some basic information on your hotel first
+              .modal-footer.border-0
+                a.btn.btn-danger(type='button' href='/hotels/generalinformation') Understood
+
+    .d-flex.flex-column(style='min-height: 10vh;')
+
+    .container-fluid.bg-dark
+      .container
+        footer.py-5
+          .row
+            .col-6.col-md-2.mb-3
+              h5.text-light Section
+              ul.nav.flex-column
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Home
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Features
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Pricing
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') FAQs
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') About
+            .col-6.col-md-2.mb-3
+              h5.text-light Section
+              ul.nav.flex-column
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Home
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Features
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Pricing
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') FAQs
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') About
+            .col-6.col-md-2.mb-3
+              h5.text-light Section
+              ul.nav.flex-column
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Home
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Features
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') Pricing
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') FAQs
+                li.nav-item.mb-2
+                  a.nav-link.p-0.text-light(href='#') About
+            .col-md-5.offset-md-1.mb-3
+              form
+                h5.text-light Subscribe to our newsletter
+                p.text-light Monthly digest of what&apos;s new and exciting from us.
+                .d-flex.flex-column.flex-sm-row.w-100.gap-2
+                  label.visually-hidden(for='newsletter1') Email address
+                  input#newsletter1.form-control(type='text' placeholder='Email address')
+                  button.btn.btn-primary(type='button') Subscribe
+          .d-flex.flex-column.flex-sm-row.justify-content-between.py-4.my-4.border-top
+            p.text-light &copy; 2024 Company, Inc. All rights reserved.
+            ul.list-unstyled.d-flex
+              li.ms-3
+                a.link-body-emphasis(href='#')
+                  svg.bi(width='24' height='24')
+                    use(xlink:href='#twitter')
+              li.ms-3
+                a.link-body-emphasis(href='#')
+                  svg.bi(width='24' height='24')
+                    use(xlink:href='#instagram')
+              li.ms-3
+                a.link-body-emphasis(href='#')
+                  svg.bi(width='24' height='24')
+                    use(xlink:href='#facebook')
+
+
+
+    script.
+      const url = new URL(window.location.href);
+      const segments = url.pathname.split('/');
+      const lastSegment = segments.pop();
+
+      const hotel_identifier = !{JSON.stringify({hotel_identifier})};
+
+      if (hotel_identifier.hotel_identifier === null && lastSegment !== 'generalinformation' ) {
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+        myModal.show();
+      } else {
+        console.log('Hotel idenfifier loaded')
+      }
+
+      const currentUrl = window.location.origin + window.location.pathname;
+      const navlinks = document.querySelectorAll('.highlightablelink');
+
+      navlinks.forEach(link => {
+        if(link.href === currentUrl){
+          link.classList.add('current-page');
+        }
+      });

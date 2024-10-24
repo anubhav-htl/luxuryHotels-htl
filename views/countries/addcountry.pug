@@ -1,0 +1,16 @@
+extends ../adminlayout
+
+block content
+  h1 Add Country
+  form(action='/countries', method='POST')
+    label(for='name') Name:
+    input(type='text', id='country', name='country', required)
+    br
+    br
+    label(for='code') Code
+    input(type='text', id='code', name='code', required)
+    input(type='hidden' name='_csrf' value=csrfToken)
+
+    br
+    br
+    button(type='submit') Add Country

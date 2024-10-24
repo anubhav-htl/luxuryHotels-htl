@@ -1,0 +1,182 @@
+extends ../profilelayout
+
+
+block content
+  script(src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js")
+  link(rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css")
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+
+  .container.mt-5.mb-4
+    .row.justify-content-center
+      .col-md-7.col-lg-11
+        h6.mb-5.mt-5.text-uppercase
+          | provide a giveaway holiday for travelers to achieve better exposure (optional)
+
+        form#hoteldetails.needs-validation(novalidate='' action='/hotels/holiday' method='POST')
+          .row.g-3.mb-5
+            .col   
+              input.form-control.border-start-0.border-end-0.border-top-0(type='text' name='title' placeholder='TITLE OF THE HOLIDAY*' required)
+
+          .row.g-3.mb-4
+            .col   
+              div#hotelimageupload(class='dropzone')
+                input(type='hidden' name='images' id='images')
+                input(type='hidden' name='hotelRepId' value=user._id )
+                input(type='hidden' name='hotelId' value=hotelId )
+                input(type='hidden' name='_csrf' value=csrfToken)               
+                .dz-message
+                  span.default-message Drag an image here or click to select from your files. 1 files allowed.
+                  span.error-message You didn't upload any image, please upload one.
+
+          .row.g-3.mb-5.mt-1
+            .col-6 
+              label.form-label(for='from_date') Holiday starts from
+              input.datepicker.form-control(type='text' id='from_date' name='dateFrom' required)
+            .col-6 
+              label.form-label(for='from_date') Holiday ends on
+              input.datepicker.form-control(type='text' id='to_date' name='dateTo' required)
+
+
+          .row.g-3.mb-5
+            .col-6
+              span How many people is the holiday valid for?
+            .col-2   
+              label.form-label(for='adults') Adults
+              input.form-control(type='number' name='adult_attendees' required)
+            .col-2   
+              label.form-label(for='children') Children
+              input.form-control(type='number' name='children_attendees' required)
+
+
+          .row.g-3.mb-5
+            .col
+              input#competitionclosure.datepicker.form-control.border-start-0.border-end-0.border-top-0(type='text' name='competitionclosure' placeholder='Competition ends on (select date)' required)
+
+
+          .row.g-3.mb-4
+            .col
+              textarea#holiday_detail.form-control.border-start-0.border-end-0.border-top-0(style="height: 100px" name='holidaydescription' placeholder='Descibe the holiday' required)
+
+
+          .row.g-3.mb-4
+            .col
+              textarea#holiday_include.form-control.border-start-0.border-end-0.border-top-0(style="height: 100px" name='holidayincludes' placeholder='Describe what\'s included' required)
+
+          h6.mb-5.mt-5.text-uppercase
+            | Conditions of entry
+
+          .row.g-3.mb-4
+            #accordionExample.accordion
+              .accordion-item
+                h2.accordion-header
+                  button.accordion-button(type='button' data-bs-toggle='collapse' data-bs-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne')
+                    | Winner Selection &amp; Notification
+                #collapseOne.accordion-collapse.collapse.show(data-bs-parent='#accordionExample')
+                  .accordion-body
+                    strong Winner Selection and Notification
+                    ul
+                      li
+                        | The hotel will receive all client entries to select the winner.
+
+              .accordion-item
+                h2.accordion-header
+                  button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo')
+                    | Notification &amp; Voucher
+                #collapseTwo.accordion-collapse.collapse(data-bs-parent='#accordionExample')
+                  .accordion-body
+                    strong Notification &amp; Voucher
+                    ul
+                      li
+                        | The hotel must select a winner from all the entries received from us and notify us by email within 7 days of the closing date with the winner's name.
+                        | The hotel must send the voucher directly to the client by email and CC the luxury hotel at winner@LuxuryHotelsMagazines.com.
+
+              .accordion-item
+                h2.accordion-header
+                  button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseThree' aria-expanded='false' aria-controls='collapseThree')
+                    | Winner Announcement
+                #collapseThree.accordion-collapse.collapse(data-bs-parent='#accordionExample')
+                  .accordion-body
+                    strong Winner Annoucement
+                    ul
+                      li
+                        | The hotel must inform Luxury Hotels of the winner's name so we can congratulate them
+
+              .accordion-item
+                h2.accordion-header
+                  button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseFour' aria-expanded='false' aria-controls='collapseFour')
+                    | Social Media Promotion
+                #collapseFour.accordion-collapse.collapse(data-bs-parent='#accordionExample')
+                  .accordion-body
+                    strong Scocial Media Promotion
+                    ul
+                      li
+                        | All holidays will be promoted on social media as soon as they are submitted by the hotel and after the winner is chosen.
+
+              .accordion-item
+                h2.accordion-header
+                  button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseFive' aria-expanded='false' aria-controls='collapseFive')
+                    | Winner Obligation
+                #collapseFive.accordion-collapse.collapse(data-bs-parent='#accordionExample')
+                  .accordion-body
+                    strong Winner Obligation
+                    ul
+                      li 
+                        |  The winner is obliged to post about winning the prize and their holiday experience on their social media and provide a copy to us for further hotel promotion.
+
+              .accordion-item
+                h2.accordion-header
+                  button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseSix' aria-expanded='false' aria-controls='collapseSix')
+                    | Data Usage
+                #collapseSix.accordion-collapse.collapse(data-bs-parent='#accordionExample')
+                  .accordion-body
+                    strong Data Usage
+                    ul
+                      li 
+                        |  All client data can be used by us and the hotel to send future offers.
+
+
+            if (holidayData[0] && holidayData[0].images && holidayData[0].images.length > 0)
+              .row.mb-4.mt-5
+                .container.mb-3
+                  span.position-relative(type='button')
+                    | Current Images
+
+                    .col-3
+                      .card                  
+                        img.card-img-top(src=`/${holidayData[0].images}` class='img-thumbnail' alt='...')
+                        .card-body
+                        button.btn-close.mb-2(type='button' aria-label='Close' onclick=`deleteImage('${hotelId}', '${holidayData[0].images}', 'Holiday')`)
+
+          br
+          br
+
+          .row.g-3.mb-1
+            .col-6
+              #uploadprogress(style='display: none;') Uploading images, please wait...
+
+          .row.g-3.mb-1
+            .col-6#progress-bar(style='display: none;')
+              .progress(role="progressbar" aria-label="Upload progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100")
+                .progress-bar(style="width: 0%")
+
+          input.btn.btn-danger(type='submit' value='Submit')
+
+    .modal.fade(tabindex='-1' aria-hidden='true' role='dialog' id='imageErrorModal')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header.border-0
+            h5.modal-title#imageModalErrorTitle Image upload failed
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          #imageErrorModalBody.modal-body.border-0
+            p Your image is too large. Please use an image less than 2 MB.
+          .modal-footer.border-0
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal' id='imageErrorClose') Close
+            button.btn.btn-danger(type='button' id='confirmDelete' style='display:none') Delete Image
+
+
+
+
+  script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+
+
+  script(src='/scripts/winaholiday.js')

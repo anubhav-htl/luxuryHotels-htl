@@ -1,0 +1,63 @@
+extends ../profilelayout
+
+
+block content
+
+  .container.mt-5.mb-4.ms-5
+    .row.justify-content-center
+      .col-12
+        h6.mb-5.mt-5.text-uppercase
+          | select some key features that your hotel offers such as airport transfers, free parking
+  
+        h6.mb-3 Hotel Highlights        
+
+        form#hoteldetails(method='post' action='/hotels/highlights')   
+          - const keys = Object.keys(highlightLabels);
+          - const midIndex = Math.ceil(keys.length / 2);
+          - const firstHalf = keys.slice(0, midIndex);
+          - const secondHalf = keys.slice(midIndex);
+          
+            if (highlight)
+              .row
+                .col-md-6                       
+                  each key in firstHalf
+                      - const isChecked = highlight[key] === true;
+                      div.form-check(key=key)
+                        input.form-check-input(type="checkbox", name=key, checked=isChecked ? true : false)
+                        label.form-check-label
+                          | #{highlightLabels[key]}
+
+                .col-md-6                       
+                  each key in secondHalf
+                      - const isChecked = highlight[key] === true;
+                      div.form-check(key=key)
+                        input.form-check-input(type="checkbox", name=key, checked=isChecked ? true : false)
+                        label.form-check-label
+                          | #{highlightLabels[key]}
+            else
+              .row
+                .col-md-6                       
+                  each key in firstHalf
+                    div.form-check(key=key)
+                      input.form-check-input(type="checkbox", name=key)
+                      label.form-check-label
+                        | #{highlightLabels[key]}
+
+                .col-md-6                       
+                  each key in secondHalf
+                    div.form-check(key=key)
+                      input.form-check-input(type="checkbox", name=key)
+                      label.form-check-label
+                        | #{highlightLabels[key]}
+                      
+        
+          input(type="hidden" name="hotelId" value=hotelId)
+          input(type='hidden' name='_csrf' value=csrfToken)
+
+          
+          .row.mb-4.mt-5
+            .col-sm-12.text-end
+              a.btn.btn-secondary.me-3(href='/hotels/facilitiesamenities') PREVIOUS
+              button.btn.btn-danger(type='submit') CONTINUE
+
+   

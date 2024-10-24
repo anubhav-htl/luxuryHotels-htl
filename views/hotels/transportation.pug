@@ -1,0 +1,96 @@
+extends ../profilelayout
+
+
+block content
+
+  .container.mt-5.mb-4.ms-2
+    .row.justify-content-center
+      .col-12
+        h6.mb-5.mt-5.text-uppercase
+          | Add some nearby transport stations that your potential clients can use
+
+        form#hoteldetails(method='post' action='/hotels/transportation')
+          #transportContainer
+            - const x = 1
+            if transportstations
+              each value, index in transportstations.transportation_category
+                .transportEntry.mb-2.row.g-2
+                  .col-4
+                    label.form-label(for='transportation_category') Select tranport station
+                    select#country.form-select.border.border-top-0.border-end-0.border-start-0(
+                      aria-label='Transport Station Selection' 
+                      name=`transportation_category[${index}][station_category]`
+                      required
+                    )
+                      
+                      option(value='') Select category
+                      option(value='airport' selected=value.station_category === 'airport') Airport
+                      option(value='train_station' selected=value.station_category === 'train_station') Train Station
+                      option(value='bus_station' selected=value.station_category === 'bus_station') Bus Station
+                      option(value='metro_subway_station' selected=value.station_category === 'metro_subway_station') Metro/Subway Station
+                      option(value='tram_station' selected=value.station_category === 'tram_station') Tram Station
+                      option(value='ferry_boat_terminal' selected=value.station_category === 'ferry_boat_terminal') Ferry/Boat Terminal
+                      option(value='taxi_stand' selected=value.station_category === 'taxi_stand') Taxi Stand
+                      option(value='helipad' selected=value.station_category === 'helipad') Helipad
+                      option(value='car_rental_agency' selected=value.station_category === 'car_rental_agency') Car Rental Agency
+                      option(value='highway_exit' selected=value.station_category === 'highway_exit') Highway Exit
+                      option(value='bicycle_rental' selected=value.station_category === 'bicycle_rental') Bicycle Rental
+                      option(value='shuttle_bus_stop' selected=value.station_category === 'shuttle_bus_stop') Shuttle Bus Stop
+                  
+                  .col
+                    label.form-label(for=`name`) Name of station:
+                    input.form-control(type='text' id=`station_name` value=value.station_name name=`transportation_category[${index}][station_name]` required placeholder=`e.g. LAX International Airport`)
+
+                  .col
+                    label.form-label(for=`time`) Time to station (mins):
+                    input.form-control(type='number' id=`time_to_station` value=value.time_to_station name=`transportation_category[${index}][time_to_station]` required)
+            else
+              .transportEntry.mb-2.row.g-2
+                  .col-4
+                    label.form-label(for='transportation_category') Select tranport station
+                    select#country.form-select.border.border-top-0.border-end-0.border-start-0(
+                      aria-label='Transport Station Selection' 
+                      name=`transportation_category[0][station_category]`
+                      required
+                    )
+                      option(value='') Select category
+                      option(value='airport') Airport
+                      option(value='train_station') Train Station
+                      option(value='bus_station') Bus Station
+                      option(value='metro_subway_station') Metro/Subway Station
+                      option(value='tram_station') Tram Station
+                      option(value='ferry_boat_terminal') Ferry/Boat Terminal
+                      option(value='taxi_stand') Taxi Stand
+                      option(value='helipad') Helipad
+                      option(value='car_rental_agency') Car Rental Agency
+                      option(value='highway_exit') Highway Exit
+                      option(value='bicycle_rental') Bicycle Rental
+                      option(value='shuttle_bus_stop') Shuttle Bus Stop
+                  
+                  .col
+                    label.form-label(for=`name`) Name of station:
+                    input.form-control(type='text' id=`station_name` name=`transportation_category[0][station_name]` required placeholder=`e.g. LAX International Airport`)
+
+                  .col
+                    label.form-label(for=`time`) Time to station (mins):
+                    input.form-control(type='number' id=`time_to_station` name=`transportation_category[0][time_to_station]` required)
+          
+          br
+          button.btn.btn-outline-danger(type='button' id='addTransport') + Add Transportation Station
+
+          input(type="hidden" name="hotelId" value=hotelId)
+          input(type='hidden' name='_csrf' value=csrfToken)
+
+
+          .row.mb-4.mt-5
+            .col-sm-12.text-end
+              a.btn.btn-secondary.me-3(href='/hotels/highlights') PREVIOUS
+              button.btn.btn-danger(type='submit') CONTINUE
+
+
+  script.
+    window.transportstations = !{JSON.stringify({transportstations})};
+
+  script(src='/scripts/transportation.js')
+
+

@@ -1,0 +1,73 @@
+import HomeContent from "../models/homecontent.js";
+import CountryVideos from "../models/countryVideosSchema.js";
+
+export const getCountryVideos = async (req, res) => {
+  try {
+    const data = await CountryVideos.find()
+      .populate("hotel_id","hotel_name")
+  
+    res.send({
+      status: 200,
+      content: data,
+    });
+  } catch (error) {
+    console.log("catch error - ", error);
+    return res.send({
+      status: 500,
+      message: "internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export const addCountryVideos = async (req, res) => {
+  try {
+    const { country_name, video_url, hotel_id } = req.body;
+    const data = await CountryVideos.create({
+      country_name,
+      video_url,
+      hotel_id,
+    });
+    res.send({
+      status: 200,
+      content: data,
+    });
+  } catch (error) {
+    console.log("catch error - ", error);
+    return res.send({
+      status: 500,
+      message: "internal server error",
+      error: error.message,
+    });
+  }
+};
+
+//commented on 10-10-2024
+// import HomeContent from "../models/homecontent.js";
+// import CountryVideos from "../models/countryVideosSchema.js"
+// export const getCountryVideos = async (req, res) => {
+//   try {
+//     const data = await CountryVideos.find();
+//     res.send({
+//       status: 200,
+//       content: data,
+//     });
+//   } catch (error) {
+//     console.log("catch error - ", error);
+//   }
+// };
+// export const addCountryVideos = async (req, res) => {
+//   try {
+//     const { country_name, video_url } = req.body;
+//     const data = await CountryVideos.create({
+//       country_name: country_name,
+//       video_url: video_url,
+//     });
+//     res.send({
+//       status: 200,
+//       content: data,
+//     });
+//   } catch (error) {
+//     console.log("catch error - ", error);
+//   }
+// };

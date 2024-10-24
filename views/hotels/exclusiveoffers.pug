@@ -1,0 +1,80 @@
+extends ../profilelayout
+
+
+block content
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+
+  .container.mt-5.mb-4
+    .row.justify-content-center
+      .col-md-7.col-lg-11
+        h6.mb-5.mt-5.text-uppercase
+          | create an exclusive offer to attract clients to your hotel (optional)
+        form(action='/hotels/hoteloffers' method='POST')
+          .row.g-3.mb-5.mt-1
+            .col-3
+              label.form-label(for='country_code') Country Code
+              select#telephoneCode.form-select.border.border-top-0.border-end-0.border-start-0(aria-label='Country Selection', required, name="country_code")
+                option(value=(hotelProfile && hotelProfile.country && hotelProfile.country.code) || '') #{(hotelProfile && hotelProfile.country && hotelProfile.country.code) || ''}
+
+                if countryData                  
+                  each country in countryData
+                    option(value=country.code) #{country.code}
+
+            .col-6
+              label.form-label(for='telephone') Phone Number
+              input#telephone.form-control.border-start-0.border-end-0.border-top-0(type="text" name='telephone' required)
+          
+          .row.g-3.mb-5.mt-1
+            .col-6
+              label.form-label(for='from_date') Dates Offer Valid From
+              input.datepicker.form-control(type='text' id='from_date' name='from_date' placeholder='Click to select date' required)
+            .col-6
+              label.form-label(for='from_date') To
+              input.datepicker.form-control(type='text' id='to_date' name='to_date' placeholder='Click to select date' required)
+
+
+          .row.g-3.mb-5.mt-1
+            .col-11
+              label.form-label(for='title') Title
+              input.form-control.border-start-0.border-end-0.border-top-0(type='text' id='title' name='title' placeholder='Enter a 3 word title' required)
+              p#titleWordCount 0/3 words
+
+
+          .row.g-3.mb-5.mt-1
+            .col-11
+              label.form-label(for='from_date') Description
+              textarea.form-control.border-start-0.border-end-0.border-top-0(type='text' id='description' name='description' placeholder='Enter a brief 10 word description of the offer' required)
+              p#wordCount 0/10 words
+
+          .row.g-3.mb-5.mt-1
+            .col-11
+              label.form-label(for='show_offer') Show offer on homepage
+              select#showofferhomepage.form-select.border.border-top-0.border-end-0.border-start-0(aria-label='Offer Selection', required, name='exclusiveoffers[Show offer on homepage][option]')
+                option(value='') Select an option 
+                if giftData != null
+                  each gift in giftData
+                    option(value=`${gift._id},${gift.name},${gift.duration},${gift.durationMeasure},${gift.price},${gift.stripe_price_id}`) #{gift.name} - €#{gift.price}
+
+
+          .row.g-3.mb-5.mt-1
+            .col-11
+              label.form-label(for='redeem_link') Redeem Link
+              input.form-control.border-start-0.border-end-0.border-top-0(type='text' id='redeem_link' name='redeem_link' placeholder='Website to where clients can redeem the offer' required)
+
+
+          input(type='hidden' name='_csrf', value=csrfToken)
+          input(type='hidden', name='payment_element', value='exclusiveOffers')
+          input(type='hidden' name='hotel', value=hotelId)
+          br
+          br
+
+          .row.mb-4
+            .col-sm-12.text-end
+              button.btn.btn-secondary.me-3(type='submit') ADD SELECTION TO CART
+              
+
+
+  script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+  script(src="/scripts/exclusiveoffers.js")
+
+

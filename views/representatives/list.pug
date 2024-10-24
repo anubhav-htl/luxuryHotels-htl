@@ -1,0 +1,31 @@
+extends ../navbar
+
+block content
+
+  .container-fluid(style='padding-right: 0; overflow-x: hidden;')
+    .row.align-items-center
+      .col.mt-5.text-center
+        p WELCOME TO 
+        
+        img(src='/images/logo red.png', width='300')
+
+        br
+        br
+        p 
+          | Want more guests for your hotel? Register with us <br>
+          | today to reach our 2.8 million subscribers across 89 <br>
+          | countries worldwide, including 48 European <br>
+          | countries!
+
+        br
+        .d-grid.gap-2.col-6.mx-auto
+          a.btn.btn-danger(href='/representatives/login') Login
+          a.btn.btn-danger(href='/representatives/register') Register
+
+
+      .col
+        img.img-fluid(src='/images/listimage.jpeg', alt='List your hotel')
+
+
+
+  

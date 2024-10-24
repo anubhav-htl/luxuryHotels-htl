@@ -1,0 +1,16 @@
+extends ../adminlayout
+
+block content
+  h1 List of Countries
+  table
+    thead
+      tr
+        th Country Name
+        th Country Code
+    tbody
+    each country in countries
+      tr
+        td= country.country
+        td= country.code
+
+  a(href='/countries/add') Add New Country

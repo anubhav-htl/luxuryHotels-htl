@@ -1,0 +1,123 @@
+extends ../adminlayout
+
+block content
+  .container.mt-5.mb-4
+    .row.justify-content-center
+        .col-lg-10
+          h2.mb-3 Edit Add-On
+          form(action=`/addons/edit/${addonData._id}`, method='POST')
+            .row.g-3.mb-3
+              label.form-label(for='name') Name:
+              input.form-control(type='text' id='name', name='name', required, value=addonData.name)
+        
+            .row.g-3.mb-3
+              label.form-label(for='code') Description
+              textarea.form-control(id='description' name='description') #{addonData.description}
+            
+            #optionsContainer
+              each addonoptions, index in addonData.options
+                .optionEntry.row.g-3.mb-2
+                  .col-3
+                    label(for='code' class='form-label') Label
+                    input(type='text' class='form-control' id='label', name=`options[${index}][label]`, required, value=addonoptions.label)
+
+                  .col-2
+                    label(for='code' class='form-label') Duration (days)
+                    input(type='number' class='form-control' id='duration', name=`options[${index}][duration]`, required, value=addonoptions.duration)
+
+                  .col-2
+                    label(for='code' class='form-label') Duration Measure
+                    input(type='text' class='form-control' id='durationMeasure', name=`options[${index}][durationMeasure]`, required, value=addonoptions.durationMeasure)
+
+                  .col-2
+                    label(for='code' class='form-label') Price
+                    input(type='number' class='form-control' id='price', name=`options[${index}][price]`, required, value=addonoptions.price)
+                  
+                  .col-2(style='padding-top: 30px')
+                    button(type='button' class='btn btn-danger delete-option') -
+            br
+            br
+            button.btn.btn-outline-danger(type='button', id='addOption') Add Another Option
+            br
+            br
+            input(type='hidden', name='_csrf', value=csrfToken)
+            input(type='hidden', name='addon_id', value=addonData.id)
+            input.btn.btn-danger(type='submit')
+
+
+  script.
+    document.querySelectorAll('.delete-option').forEach((button, index) => {
+      button.addEventListener('click', function() {
+        if (index > 0) {
+          const row = button.closest('.optionEntry');
+          row.parentNode.removeChild(row);
+        }
+      });
+    });
+
+    document.getElementById('addOption').addEventListener('click', function() {
+      
+      const container = document.getElementById('optionsContainer');
+      const index = container.children.length; // Adjust this if you have other elements inside the container
+      const newOption = document.createElement('div');
+      newOption.className = 'optionEntry';
+      newOption.className += ' row';
+      newOption.className += ' g-3';
+      newOption.className += ' mb-2';
+      newOption.innerHTML = `
+        <div class='col-3'>
+          <label for='label' class='form-label'>Label</label>
+          <input type='text' class='form-control' name='options[${index}][label]' required>
+        </div>
+        <div class='col-2'>
+          <label for='duration' class='form-label'>Duration (days)</label>
+          <input type='number' class='form-control' name='options[${index}][duration]' required>
+        </div>
+        <div class='col-2'>
+          <label for='duration' class='form-label'>Duration (days)</label>
+          <input type='text' class='form-control' name='options[${index}][durationMeasure]' required>
+        </div>
+        <div class='col-2'>
+          <label for='price' class='form-label'>Price</label>
+          <input type='number' class='form-control' name='options[${index}][price]' required>            
+        </div>
+        <div class='col-3' style='padding-top: 30px'>
+          <button type='button' class='btn btn-danger delete-option'>-</button>
+        </div>
+      `;
+      container.appendChild(newOption);
+
+      newOption.querySelector('.delete-option').addEventListener('click', function() {
+        if (container.children.length > 1) {
+          container.removeChild(newOption);
+        }
+      });
+    });
+
+    const toggleButton1 = document.getElementById('utilities-addons');
+    const toggleButton2 = document.getElementById('utilities');
+    const collapseTarget1 = document.querySelector(toggleButton1.getAttribute('data-bs-target'));
+    const collapseTarget2 = document.querySelector(toggleButton2.getAttribute('data-bs-target'));
+
+    collapseTarget1.classList.add('no-transition');
+    collapseTarget2.classList.add('no-transition');
+
+    //- // Set the aria-expanded attribute to true
+    toggleButton1.setAttribute('aria-expanded', 'true');
+    toggleButton2.setAttribute('aria-expanded', 'true');
+
+    // Use Bootstrap's collapse API to show the collapse element
+    const collapseInstance1 = new bootstrap.Collapse(collapseTarget1, {
+      toggle: false // Prevents automatic toggle
+    });
+    const collapseInstance2 = new bootstrap.Collapse(collapseTarget2, {
+      toggle: false // Prevents automatic toggle
+    });
+
+    collapseInstance1.show();
+    collapseInstance2.show();
+
+    setTimeout(() => {
+      collapseTarget1.classList.remove('no-transition');
+      collapseTarget2.classList.remove('no-transition');
+    }, 10); // 10 milliseconds is typically enough

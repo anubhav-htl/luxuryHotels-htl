@@ -1,0 +1,17 @@
+import mongoose from "mongoose";
+
+const { Schema } = mongoose;
+
+const subscriptionSchema = new Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  duration: { type: Number, required: true },
+  features: [{ type: String, required: true }],
+  durationMeasure: { type: String, default: 'months' },
+  stripe_price_id: { type: String },
+  billable: { type: Boolean, default: false }
+});
+
+const Subscription = mongoose.model('Subscription', subscriptionSchema);
+
+export default Subscription;

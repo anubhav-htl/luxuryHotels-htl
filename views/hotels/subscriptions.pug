@@ -1,0 +1,134 @@
+extends ../profilelayout
+
+block content
+
+  style.
+
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      border: 2px solid #af873c;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .col-4:nth-child(1),
+    .col-4:nth-child(3) {
+      z-index: 1;
+    }
+
+    .col-4:nth-child(2) {
+      z-index: 2;
+      transform: scale(1.05);
+    }
+
+    .col-4:nth-child(2) .card:hover {
+      transform: scale(1.15);
+    }
+
+    .card:hover .btn {
+      background-color: #FFFFFF;
+      color: #a72c28;
+    }
+
+    .card:hover .card-header {
+      background-color: #A72C28;
+    }
+
+    .card:hover .checkmark {
+      color: #FFFFFF !important;
+    }
+
+    .card:hover{
+      color: white;
+      background-color: #a72c28
+    }
+
+    .card-header{
+      background-color: #FFFFFF;
+      border-bottom: 0px
+    }
+
+    .card-header:hover{
+      background-color: #a72c28
+    }
+
+
+  .row.mb-3.text-center.mt-5.ms-2
+    .col-12
+      h6.mb-5.mt-5.text-uppercase
+        | Choose a subscription package below, or &nbsp;
+        a#opentrialLink.text-danger(href='#') click here for a 7 day trial
+        | &nbsp; to sample some of our features
+
+
+    if subscriptionsData
+      each subscription in subscriptionsData
+        .col-lg-4.col-sm-12.col-md-12
+          .card.mb-4.rounded-1.shadow-sm
+            .card-header.py-3
+              h5.my-0.fw-normal.text-start #{subscription.name}
+              h3.my-0.fw-normal.text-start €#{subscription.price}
+            .card-body
+              ul.list-unstyled.mt-3.mb-4
+                each feature in subscription.features
+                  li.text-start
+                    span.checkmark(style='color: red;') &#10003;
+                    | #{feature}
+              form(method='post' action='/hotels/subscriptions')
+                input(type='hidden' name=`subscriptions[${subscription.id}][${subscription.name}][option]` value=`${subscription.name},${subscription.duration},${subscription.durationMeasure},${subscription.price},${subscription.stripe_price_id}`)
+                input(type='hidden', name='_csrf', value=csrfToken)
+                input(type='hidden', name='payment_element', value='packageSubscription')
+                input(type='hidden', name='hotel', value= hotel_identifier ? hotel_identifier : '')
+                button.w-100.btn.btn-md.btn-danger(type='submit') Choose this subscription
+
+
+    if (hotelProfile)
+        #staticBackdrop.modal.modal-lg.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+            .modal-dialog.modal-dialog-centered
+                .modal-content
+                    .modal-header.border-0
+                        h5 Hello #{user.name}
+                    .modal-body
+                        | You have opted for a 7 day trail of our website's features. You will immediately receive the following features on your profile:
+                        | - Up to 10 images
+                        br
+                        | - Description
+                        br
+                        | - Video
+                        br
+                        | - Location Map
+                        br
+                        | - Top Attractions
+                        br
+                        | - Faci-ties and Amenities
+                        br
+                        | - Exclusive Offer
+                        br
+                        | - Direct Contact Details (including website)
+                        br
+                        | - Visitor Counter
+                        br
+                        | - Share on Social Networks
+                        br
+                        | - Showcase in Newly Listed Hotel section of the Home Page
+                    .modal-footer.border-0
+                        button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Cancel
+                        a#submit7daytrial.btn.btn-danger(type='button' href='#') Accept
+
+    if trialData
+      input(type='hidden' id='trial' name=`trial_information` value=`${trialData.name},${trialData.duration},${trialData.durationMeasure},${trialData.price},${trialData.stripe_price_id}`)
+      input(type='hidden', id='trial_csrf', name='trial_csrf', value=csrfToken)
+      input(type='hidden', id='trialId', name='trialId', value=trialData.id)
+      input(type='hidden', id='trialName', name='trialName', value=trialData.name)
+      input(type='hidden', id='trial_payment_element', name='trial_payment_element', value='packageSubscription')
+      input(type='hidden', id='trial_hotel', name='trial_hotel', value= hotel_identifier ? hotel_identifier : '')
+
+
+
+
+
+  script(src='/scripts/subscriptions.js')

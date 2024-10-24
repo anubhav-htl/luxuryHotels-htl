@@ -1,0 +1,79 @@
+extends ../profilelayout
+
+
+block content
+
+  .container.mt-5.mb-4.ms-5
+      .row.justify-content-center
+        .col-12
+          h6.mb-5.mt-5
+            | PLEASE COMPLETE YOUR HOTEL CONTACT INFORMATION TO CONTINUE. MANDATORY FIELDS MARKED WITH *
+
+          form(action='/hotels/contactinformation' method='post')
+            h6.mb-5 CONTACT 1
+
+            .row.g-3
+              .col-4
+                label.form-label Hotel Manager Name*
+                input.form-control.border-start-0.border-end-0.border-top-0.placeholder-grey(type='text' name='hotel_manager_name' required value=hotelData && hotelData.hotel_manager_name || '')
+              .col-3
+                label.form-label Email*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='email' name='hotel_manager_email' required value=hotelData && hotelData.hotel_manager_email || '')
+
+              .col-2
+                label.form-label Country Code
+                select#countrycode.form-select.border.border-top-0.border-end-0.border-start-0(aria-label='Country Code', required, name="country_code_manager")
+                  option(value=countryPercievedCountryCode selected) #{countryPercievedCountryCode}
+                  each country in countryData
+                    option(value=country.code) #{country.code}
+
+              .col-3
+                label.form-label Phone Number*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='text' name='hotel_manager_telephone' required value=hotelData && hotelData.hotel_manager_telephone || '')
+
+            h6.mb-5.mt-5 CONTACT 2
+
+            .row.g-3
+              .col-4
+                label.form-label Marketing Manager Name*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='text' name='marketing_manager_name' required value=hotelData && hotelData.marketing_manager_name || '')
+              .col-3
+                label.form-label Email*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='email' name='marketing_manager_email' required value=hotelData && hotelData.marketing_manager_email || '')
+
+              .col-2
+                label.form-label Country Code
+                select#countrycode.form-select.border.border-top-0.border-end-0.border-start-0(aria-label='Country Code', required, name="country_code_marketing")
+                  option(value=countryPercievedCountryCode selected) #{countryPercievedCountryCode}
+                  each country in countryData
+                    option(value=country.code) #{country.code}
+              .col-3
+                label.form-label Phone Number*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='text' name='marketing_manager_telephone' required value=hotelData && hotelData.marketing_manager_telephone || '')
+
+            h6.mb-5.mt-5 CONTACT 3
+
+            .row.g-3
+              .col-4
+                label.form-label Your Name*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='text' name='hotel_representative_name' value=user.name required)
+              .col-3
+                label.form-label Email*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='email' name='hotel_representative_email' value=user.email required)
+              .col-2
+                label.form-label Country Code
+                select#country.form-select.border.border-top-0.border-end-0.border-start-0(aria-label='Country Selection', required, name="country_code_hotelrepresentative")
+                  option(value=user.country_code_hotelrepresentative selected) #{user.country_code_hotelrepresentative}
+                  each country in countryData
+                    option(value=country.code) #{country.code}
+              .col-3
+                label.form-label Phone Number*
+                input.form-control.border-start-0.border-end-0.border-top-0(type='text' name='hotel_representative_telephone' value=user.telephone required)
+                input(type="hidden" name="hotelId" value=hotelData && hotelData._id)
+                input(type="hidden" name="userId" value=user.id)
+                input(type='hidden' name='_csrf' value=csrfToken)
+
+            .row.mb-4.mt-5
+              .col.text-end
+                a.btn.btn-secondary.me-2(href=`/hotels/facilitiesamenities/`) PREVIOUS
+                button.btn.btn-danger(type="submit") CONTINUE

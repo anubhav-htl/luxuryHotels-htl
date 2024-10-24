@@ -1,0 +1,32 @@
+extends ../profilelayout
+
+block content
+
+  .container.mt-5.mb-4
+    .row
+      if hotelProfiles
+        each hotel in hotelProfiles
+          .col
+            .card
+              div.carousel.slide(id=`carouselExample${hotel._id}`)
+                .carousel-inner
+                  each image, index in hotel.images
+                    .carousel-item(class=index == 0 ? 'active' : '')
+                      img.d-block.w-100(src=`https://luxuryhotels.s3.eu-north-1.amazonaws.com/${image}`)                
+                button.carousel-control-prev(type='button' data-bs-target=`#carouselExample${hotel._id}` data-bs-slide='prev')
+                  span.carousel-control-prev-icon(aria-hidden='true')
+                  span.visually-hidden Previous
+                button.carousel-control-next(type='button' data-bs-target=`#carouselExample${hotel._id}` data-bs-slide='next')
+                  span.carousel-control-next-icon(aria-hidden='true')
+                  span.visually-hidden Next
+
+              .card-body
+                h5.card-title #{hotel.hotel_name}
+                p.card-text
+                  |  #{hotel.description}
+                .btn-group(role='group')
+                    a.btn.btn-outline-danger.btn-sm(href=`/hotels/profile/${hotel._id}`) View profile
+              ul.list-group.list-group-flush
+                li.list-group-item.fst-italic(style='font-size: 14px') #{hotel.updatedAtFormatted}
+
+

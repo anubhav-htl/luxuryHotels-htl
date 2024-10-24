@@ -1,0 +1,42 @@
+import mongoose from "mongoose";
+
+const { Schema } = mongoose;
+
+const nominationSchema = new Schema(
+  {
+    hotelName: { type: String, required: true },
+    hotelWebsite: { type: String, required: true },
+    images: [{ type: String }],
+    nominatorName: { type: String, required: true },
+    nominatorEmail: { type: String, required: true },
+    country: { type: String, required: true },
+    nominationStartDate: { type: Date, required: true, default: Date.now() },
+    nominationEndDate: {
+      type: Date,
+      default: function () {
+        const endDate = new Date(this.nominationStartDate);
+        endDate.setMonth(endDate.getMonth() + 1);
+        return endDate;
+      },
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "active", "expired"],
+      default: "pending",
+    },
+    hotelRepId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "HotelRepresentative",
+      required: true,
+    },
+    hotel: { type: Schema.Types.ObjectId, ref: "Hotel", required: true },
+  },
+  { timestamps: true },
+);
+
+nominationSchema.index({ nominationEndDate: 1 });
+
+const Nomination = mongoose.model("Nomination", nominationSchema);
+
+export default Nomination;
