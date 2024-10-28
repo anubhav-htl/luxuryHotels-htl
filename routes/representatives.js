@@ -24,7 +24,7 @@ const router = express.Router();
 
 router.get("/", redirectIfAuthenticated, getList);
 
-router.get("/register", redirectIfAuthenticated, getRegistration);
+// router.get("/register", redirectIfAuthenticated, getRegistration);
 
 router.post("/register", registerValidator, register);
 // router.post('/register', redirectIfAuthenticated, registerValidator, register);

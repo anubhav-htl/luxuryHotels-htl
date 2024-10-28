@@ -47,7 +47,7 @@ export const verification = async (req, res) => {
     res
       .status(500)
       .redirect(
-        `${backendUrl}/representatives/login?errorMessage=${errorMessage}`,
+        `${backendUrl}/representatives/login?errorMessage=${errorMessage}`
       );
   }
 };
@@ -96,7 +96,7 @@ export const getHotelProfiles = async (req, res) => {
     hotelProfiles.forEach((hotel) => {
       hotel.updatedAtFormatted = formatDistanceToNow(
         new Date(hotel.updatedAt),
-        { addSuffix: true },
+        { addSuffix: true }
       );
     });
     res.render("representatives/hotelprofiles", {
@@ -127,23 +127,24 @@ export const register = async (req, res) => {
       verificationToken: verificationToken,
       isApproved: false,
     });
-
     await hotelRep.save();
 
-    emailQueue.add({
-      email,
-      subject: "Verify your email",
-      content: `<html><p>Please click <a href="${backendUrl}/representatives/verify/${verificationToken}">here</a> to verify your email.</p></html>`,
+    // emailQueue.add({
+    //   email,
+    //   subject: "Verify your email",
+    //   content: `<html><p>Please click <a href="${backendUrl}/representatives/verify/${verificationToken}">here</a> to verify your email.</p></html>`,
+    // });
+
+    // req.flash(
+    //   "info",
+    //   `Registration successful. Please check your email for verification.`,
+    // );
+
+    res.status(200).json({
+      message: "user registration successful",
+      // message: "Registration successful. Please check your email",
+      status: true,
     });
-
-    req.flash(
-      "info",
-      `Registration successful. Please check your email for verification.`,
-    );
-
-    res
-      .status(200)
-      .json({ message: "Registration successful. Please check your email" });
   } catch (err) {
     console.error("Registration failed:", err);
     res.status(500).json({

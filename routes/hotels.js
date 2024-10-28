@@ -88,7 +88,7 @@ const uploadFiles = () =>
     { name: 'hotel_logo', maxCount: 1 },  // Handle single hotel logo
     { name: 'images', maxCount: 10 }      // Handle multiple images
   ]);
-//check git
+
 // Use the combined middleware in your router
 router.post(
   "/generalinformation",
@@ -469,5 +469,6 @@ router.post("/nearby-attraction", async (req, res) => {
     });
   }
 });
+
 
 export default router;
